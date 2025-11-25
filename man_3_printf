@@ -1,0 +1,33 @@
+.TH _printf 3 "November 25, 2025"
+.SH NAME
+_printf \- produces output according to a format
+.SH SYNOPSIS
+#include "main.h"
+
+int _printf(const char *format, ...);
+.SH DESCRIPTION
+The _printf() function produces output according to a format string passed as parameter.
+It supports the following conversion specifiers:
+.TP
+%c
+Character to print.
+.TP
+%s
+String to print.
+.TP
+%d, %i
+Signed decimal integer.
+.TP
+%%
+Prints a percent sign.
+.SH RETURN VALUE
+The total number of characters printed (excluding the null byte) is returned.
+If format is NULL, the function returns -1.
+.SH NOTES
+Does not support flags, field width, precision, or length modifiers.
+Only supports the specifiers listed above.
+Written to follow Betty style guidelines for the Holberton School project.
+.SH AUTHOR
+Omar Moustafa
+
+Syrine Skalli
