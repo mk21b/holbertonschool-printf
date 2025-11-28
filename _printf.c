@@ -113,11 +113,12 @@ int _printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			i++;
-			if (format[i] == '\0')
-			{
-				va_end(args);
-				return (count);
-			}
+		        if (format[i] == '\0')
+                {
+                    va_end(args);
+                    return (-1);  /* Required by project */
+                }
+
 
 			switch (format[i])
 			{
