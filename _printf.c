@@ -114,11 +114,7 @@ int _printf(const char *format, ...)
 		{
 			i++;
 			if (format[i] == '\0')
-			{
-				count += _putchar('%');
-				va_end(args);
-				return (count);
-			}
+				break;
 
 			switch (format[i])
 			{
