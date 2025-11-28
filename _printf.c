@@ -35,25 +35,6 @@ int print_string(char *str)
 }
 
 /**
- * _print_unsigned_helper - helper to print unsigned int recursively
- * @n: The unsigned integer to print
- *
- * Return: The number of characters printed
- */
-static int _print_unsigned_helper(unsigned int n)
-{
-	int count = 0;
-
-	if (n / 10)
-		count += _print_unsigned_helper(n / 10);
-
-	_putchar((n % 10) + '0');
-	count++;
-
-	return (count);
-}
-
-/**
  * print_integer - prints an integer to stdout
  * @n: The integer to print
  *
@@ -68,14 +49,18 @@ int print_integer(int n)
 	{
 		_putchar('-');
 		count++;
-		num = (unsigned int)(-n);
+		num = -n;
 	}
 	else
 	{
-		num = (unsigned int)n;
+		num = n;
 	}
 
-	count += _print_unsigned_helper(num);
+	if (num / 10)
+		count += print_integer(num / 10);
+
+	_putchar((num % 10) + '0');
+	count++;
 
 	return (count);
 }
@@ -88,7 +73,15 @@ int print_integer(int n)
  */
 int print_unsigned(unsigned int n)
 {
-	return (_print_unsigned_helper(n));
+	int count = 0;
+
+	if (n / 10)
+		count += print_unsigned(n / 10);
+
+	_putchar((n % 10) + '0');
+	count++;
+
+	return (count);
 }
 
 /**
