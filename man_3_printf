@@ -53,6 +53,9 @@ Flag characters, field width, precision, and length modifiers are not supported.
 .IP \(bu 2
 For unrecognized conversion specifiers, a literal percent sign followed by
 the character is printed.
+.IP \(bu 2
+A trailing percent sign (%) at the end of the format string is ignored and produces
+no output.
 .SH EXAMPLE
 .nf
 #include "main.h"
