@@ -114,7 +114,10 @@ int _printf(const char *format, ...)
 		{
 			i++;
 			if (format[i] == '\0')
-				break;
+			{
+				va_end(args);
+				return (count);
+			}
 
 			switch (format[i])
 			{
