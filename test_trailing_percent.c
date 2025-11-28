@@ -1,7 +1,1 @@
-#include <stdio.h>
-
-int main(void)
-{
-	printf("%");
-	return (0);
-}
+/* Test file - not for submission */
