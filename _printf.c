@@ -4,30 +4,40 @@
  * _putchar - writes the character c to stdout
  * @c: The character to print
  *
- * Return: On success 1. On error, -1 is returned, and errno is set.
+ * Return: On success 1. On error, -1 is returned.
  */
-int _putchar(char c)
+static int _putchar(char c)
 {
 	return (write(1, &c, 1));
 }
 
 /**
- * print_string - prints a string to stdout
+ * print_char - prints a character
+ * @c: The character to print
+ *
+ * Return: 1
+ */
+static int print_char(char c)
+{
+	return (_putchar(c));
+}
+
+/**
+ * print_string - prints a string
  * @str: The string to print
  *
  * Return: The number of characters printed
  */
-int print_string(char *str)
+static int print_string(char *str)
 {
 	int count = 0;
 
 	if (str == NULL)
 		str = "(null)";
 
-	while (*str != '\0')
+	while (*str)
 	{
-		_putchar(*str);
-		count++;
+		count += _putchar(*str);
 		str++;
 	}
 
@@ -35,20 +45,19 @@ int print_string(char *str)
 }
 
 /**
- * print_integer - prints an integer to stdout
+ * print_integer - prints an integer
  * @n: The integer to print
  *
  * Return: The number of characters printed
  */
-int print_integer(int n)
+static int print_integer(int n)
 {
 	int count = 0;
 	unsigned int num;
 
 	if (n < 0)
 	{
-		_putchar('-');
-		count++;
+		count += _putchar('-');
 		num = -n;
 	}
 	else
@@ -59,27 +68,7 @@ int print_integer(int n)
 	if (num / 10)
 		count += print_integer(num / 10);
 
-	_putchar((num % 10) + '0');
-	count++;
-
-	return (count);
-}
-
-/**
- * print_unsigned - prints an unsigned integer to stdout
- * @n: The unsigned integer to print
- *
- * Return: The number of characters printed
- */
-int print_unsigned(unsigned int n)
-{
-	int count = 0;
-
-	if (n / 10)
-		count += print_unsigned(n / 10);
-
-	_putchar((n % 10) + '0');
-	count++;
+	count += _putchar((num % 10) + '0');
 
 	return (count);
 }
@@ -88,49 +77,42 @@ int print_unsigned(unsigned int n)
  * _printf - produces output according to a format
  * @format: The format string
  *
- * Return: The number of characters printed (excluding the null byte)
+ * Return: The number of characters printed
  */
 int _printf(const char *format, ...)
 {
-	va_list args;
+	va_list ap;
 	int count = 0;
 	int i = 0;
 
 	if (format == NULL)
 		return (-1);
 
-	va_start(args, format);
+	va_start(ap, format);
 
-	while (format[i] != '\0')
+	while (format[i])
 	{
 		if (format[i] == '%')
 		{
 			i++;
 			if (format[i] == '\0')
-				break;
-
-			switch (format[i])
 			{
-				case 'c':
-					count += _putchar(va_arg(args, int));
-					break;
-				case 's':
-					count += print_string(va_arg(args, char *));
-					break;
-				case '%':
-					count += _putchar('%');
-					break;
-				case 'd':
-				case 'i':
-					count += print_integer(va_arg(args, int));
-					break;
-				case 'u':
-					count += print_unsigned(va_arg(args, unsigned int));
-					break;
-				default:
-					count += _putchar('%');
-					count += _putchar(format[i]);
-					break;
+				va_end(ap);
+				return (count);
+			}
+
+			if (format[i] == 'c')
+				count += print_char(va_arg(ap, int));
+			else if (format[i] == 's')
+				count += print_string(va_arg(ap, char *));
+			else if (format[i] == 'd' || format[i] == 'i')
+				count += print_integer(va_arg(ap, int));
+			else if (format[i] == '%')
+				count += _putchar('%');
+			else
+			{
+				count += _putchar('%');
+				count += _putchar(format[i]);
 			}
 		}
 		else
@@ -140,7 +122,7 @@ int _printf(const char *format, ...)
 		i++;
 	}
 
-	va_end(args);
+	va_end(ap);
 
 	return (count);
 }
